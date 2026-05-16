@@ -4,54 +4,40 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
 import java.util.Arrays;
 import java.util.Collection;
-import static org.junit.Assert.assertTrue;
 
-//Тесты для конструктора:
+//Тест для конструктора с валидныдным полем sex и корректным полем expectedHasMane :
 @RunWith(Parameterized.class)
 public class LionTestParameterized {
 
     private final String sex;
     private final Boolean expectedHasMane;
-    private final boolean expectedException;
-    private Feline mockFeline;
+    private Feline mockFeline = new Feline();
 
-    public LionTestParameterized(String sex, Boolean expectedHasMane, boolean expectedException) {
+//объект mockFeline не передаем в конструктор, т.к. он для всех тестов одинаков
+    public LionTestParameterized(String sex, Boolean expectedHasMane) {
         this.sex = sex;
         this.expectedHasMane = expectedHasMane;
-        this.expectedException = expectedException;
-        this.mockFeline = mockFeline;
     }
 
-    @Parameterized.Parameters
+    @Parameterized.Parameters(name = "Пол: {0}, грива: {1}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {"Самец", true, false},
-                {"Самка", false, false},
-                {"Неизвестный", null, true},
-                {null, null, true}
+                {"Самец", true},
+                {"Самка", false}
         });
     }
     @Test
-    public void lionConstructorTest() throws Exception{
-        if(expectedException) {
-            try {
-                new Lion(sex, mockFeline);
-            } catch (Exception e) {
-                assertTrue(e.getMessage().contains("Используйте допустимые значения пола животного"));
-            }
-        } else {
-            Lion lion = new Lion(sex, mockFeline);
-            Assert.assertEquals(expectedHasMane, lion.doesHaveMane());
-
-            }
-
-        }
-
-
+    public void lionConstructor_ValidSex_CorrectMane_Test() throws Exception{
+        Lion lion = new Lion(sex, mockFeline);
+        Assert.assertEquals(expectedHasMane, lion.doesHaveMane());
     }
+}
+//тест на выброс исключения для констурктора находится в LionTest
+
+
+
 
 
 
