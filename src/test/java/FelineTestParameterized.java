@@ -20,7 +20,7 @@ import java.util.Collection;
         }
 
         // Метод, предоставляющий данные для тестов
-        @Parameterized.Parameters
+        @Parameterized.Parameters(name = "Тестовые данные: input={0}, expected={1}")
         public static Collection<Object[]> data() {
             return Arrays.asList(new Object[][] {
                     { 0, 0 },
